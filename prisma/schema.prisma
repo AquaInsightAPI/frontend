@@ -1,0 +1,23 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = "mongodb+srv://vaasubisht:9laXNTuGEoiwgbIS@cluster0.2qt4ztp.mongodb.net/aqua_insights_dev?retryWrites=true&w=majority"
+}
+
+model users {
+  // meta data
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @default(now())
+  // default mongoDB
+  id         String @id @default(auto()) @map("_id") @db.ObjectId
+  // from kinde
+  kindeId    String @unique
+  email      String @unique
+  // plan subscription information
+  plan      String @default("free")
+
+}
+
