@@ -9,15 +9,41 @@ datasource db {
 
 model users {
   // meta data
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @default(now())
-  // default mongoDB
-  id         String @id @default(auto()) @map("_id") @db.ObjectId
-  // from kinde
-  kindeId    String @unique
-  email      String @unique
-  // plan subscription information
-  plan      String @default("free")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
 
+  // default mongoDB
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  // from kinde
+  kindeId       String  @unique
+  email         String  @unique
+  emailVerified Boolean @default(true)
+
+  // plan subscription information
+  plan          String  @default("free")
+  appliedForPro Boolean @default(false)
+
+  // user details
+  fullname          String
+  username          String
+  purpose           String              @default("NA")
+  organization      String              @default("NA")
+  ProPlanAppliances ProPlanAppliances[]
 }
 
+model ProPlanAppliances {
+  // meta data
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+  // default mongoDB
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+
+  // application information
+  hearAbout String 
+  currentRole String
+  whereUseAPI String
+
+  usersId String @db.ObjectId
+  user    users  @relation(fields: [usersId], references: [id])
+}

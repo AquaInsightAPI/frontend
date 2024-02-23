@@ -1,6 +1,8 @@
-"use client"
-import React from 'react'
-import { useRouter } from "next/navigation";
+'use client';
+import React from 'react';
+import Link from 'next/link';
+import { buttonVariants } from '@/components/ui/button'
+import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 
 const ManageSubscription = () => {
@@ -25,7 +27,16 @@ const ManageSubscription = () => {
 
 
   return (
-    <Button onClick={redirectToCustomerPortal}>Change your subscription</Button>
+    <>
+      <Link
+        href='/apply'
+        className={buttonVariants({
+          variant: 'destructive',
+          size: 'lg',
+        })}>
+        Change your subscription
+      </Link>
+    </>
   )
 }
 

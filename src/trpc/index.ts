@@ -13,6 +13,7 @@ export const appRouter = router({
     authCallback: publicProcedure.query(async ()=>{
         const {getUser} = getKindeServerSession();
         const user = getUser();
+        console.log(user)
         if(!user.id || !user.email){
             throw new TRPCError({code:'UNAUTHORIZED'})
         }
@@ -24,12 +25,15 @@ export const appRouter = router({
         })
         
         if(!dbUser){
-            // TODO:
             // create user in database
             var temp = await db.users.create({
                 data:{
                     kindeId: user.id,
                     email: user.email,
+                    emailVerified: true,
+                    fullname: user.given_name || user.email.split('@')[0],
+                    username: user.id.slice(3,10),
+                    organization: 'NA'
                 }
             })
         }

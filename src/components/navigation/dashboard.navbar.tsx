@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 import { SidebarNavItem } from '@/types/nav.types';
 import { cn } from '@/lib/utils';
 import { Icons } from '../Icons';
+import UpdgradeAccBtn from './updatePlan'
 
 interface DashboardNavProps {
   items: SidebarNavItem[];
