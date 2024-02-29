@@ -215,7 +215,7 @@ const Page = async ()=>{
                       {plan === 'Free' ? (
                         <Link
                           href={
-                            user ? '/dashboard' : '/sign-in'
+                            user ? '/dashboard' : '/api/auth/login'
                           }
                           className={buttonVariants({
                             className: 'w-full',
@@ -226,7 +226,7 @@ const Page = async ()=>{
                       ) : user ? (
                         <div>
                           {dbUser.plan==='free' &&
-                            <Link href=''>
+                            <Link href='/apply'>
                               <Button className='w-full' onClick={UpgradeButton}>
                                 Upgrade now <ArrowRight className='h-5 w-5 ml-1.5' />
                               </Button>
@@ -234,14 +234,19 @@ const Page = async ()=>{
                             
                           }
                           {dbUser.plan==='pro' &&
-                            <Button className='w-full' disabled={true}>
-                              Current Plan <ArrowRight className='h-5 w-5 ml-1.5' />
-                            </Button>
-                          }
+                            <Link
+                              href='/apply'
+                              className={buttonVariants({
+                                className: 'w-full',
+                              })}>
+                              Upgrade now
+                              <ArrowRight className='h-5 w-5 ml-1.5' />
+                            </Link>
+                            }
                         </div>
                       ) : (
                         <Link
-                          href='/sign-in'
+                          href='/api/auth/login'
                           className={buttonVariants({
                             className: 'w-full',
                           })}>

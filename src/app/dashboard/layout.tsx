@@ -2,34 +2,38 @@ import DashboardNav from '@/components/navigation/dashboard.navbar';
 import { SidebarNavItem } from '@/types/nav.types';
 import MaxWidthWrapper from '@/components/MaxWidthWrapper';
 import UpdgradeAccBtn from '@/components/navigation/updatePlan'
-export default function RootLayout({
-    children,
-    }: {
-    children: React.ReactNode
-    }) 
+import { getUserFromKinde } from '@/lib/kinde'; 
+import { redirect } from 'next/navigation';
+import {getUserFromDatabase} from '@/db/getUser';
+import UserContext from '@/context/UserContext';
+const dashboardConfig: {
+    sidebarNav: SidebarNavItem[]
+} = {
+    sidebarNav: [
     {
-        const dashboardConfig: {
-            sidebarNav: SidebarNavItem[]
-        } = {
-            sidebarNav: [
-            {
-                title: 'Profile',
-                href: '/dashboard',
-                icon: 'library',
-            },
-            {
-                title: 'API Stats',
-                href: '/dashboard/api-stats',
-                icon: 'pieChart',
-            },
-            {
-                title: 'Settings',
-                href: '/dashboard/settings',
-                icon: 'settings',
-            },
-            ]
-        }
-        const user = 'Vaasu';  
+        title: 'Profile',
+        href: '/dashboard',
+        icon: 'library',
+    },
+    {
+        title: 'API Stats',
+        href: '/dashboard/api-stats',
+        icon: 'pieChart',
+    },
+    {
+        title: 'Settings',
+        href: '/dashboard/settings',
+        icon: 'settings',
+    },
+    ]
+}
+export default async function RootLayout(props:any) 
+    {
+    const user = getUserFromKinde();
+    if(!user || !user.id){
+        redirect('/api/auth/login');
+    }
+    const dbUser = await getUserFromDatabase(user.id);
     return (
         <div className='flex flex-wrap justify-between items-center mx-auto max-w-screen-xl px-9'>
             <div className='flex min-h-screen flex-col space-y-6 my-2'>
@@ -42,12 +46,12 @@ export default function RootLayout({
                         <MaxWidthWrapper>
                             <header className='flex items-center'>
                                 <h1 className='text-4xl my-5 font-semibold'>
-                                    Hey <span className='text-blue-600'>{user}</span>, Welcome to Aqua Insights
+                                    Hey <span className='text-blue-600'>{dbUser.fullname}</span>, Welcome to Aqua Insights
                                 </h1>
                             </header>
                         </MaxWidthWrapper>
                         <hr className='my-4' />
-                        {children}
+                        {props.children}
                     </main>
                 </div>
             </div>

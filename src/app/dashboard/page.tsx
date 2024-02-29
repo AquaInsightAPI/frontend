@@ -1,8 +1,8 @@
 import { getUserFromKinde } from '@/lib/kinde'; 
 import { redirect } from 'next/navigation';
-import { db } from '@/db';
 import {getUserFromDatabase} from '@/db/getUser'
 import {SecretKey} from '@/components/ui/secret-key'
+
 import MaxWidthWrappers from '@/components/MaxWidthWrapper';
 import {
 Table,
@@ -26,20 +26,12 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet"
-const Page = async ()=>{
+const Page = async (props:any)=>{
 
     const user = getUserFromKinde();
-    
-    // if user is not signed in, redirect
     if(!user || !user.id) redirect('/auth-callback?origin=dashboard');
 
     const dbUser = await getUserFromDatabase(user.id);
-    // eventual consistency
-    // if user is not present in databse we will redirect
-    // to /api/auth-callback?origin=dashboard
-    // origin means from where we are redirecting
-    // if not present in databse we will redirect to auth-callback and add thing in database
-    // (its like setting up account for userplease wait while we are setting up account)
     if(!dbUser){
         redirect('/auth-callback?origin=dashboard');
     }
@@ -52,11 +44,19 @@ const Page = async ()=>{
                     <TableBody>
                         <TableRow>
                             <TableCell className="font-medium">Full Name</TableCell>
-                            <TableCell>Vaasu Bisht</TableCell>
+                            <TableCell>{dbUser.fullname}</TableCell>
                         </TableRow>
                         <TableRow>
                             <TableCell className="font-medium">Username</TableCell>
                             <TableCell>vaasubisht</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell className="font-medium">Email</TableCell>
+                            <TableCell>{dbUser.email}</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell className="font-medium">Current Plan</TableCell>
+                            <TableCell>{dbUser.plan}</TableCell>
                         </TableRow>
                         <TableRow>
                             <TableCell className="font-medium">Country</TableCell>

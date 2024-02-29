@@ -5,7 +5,7 @@ import { trpc } from '@/app/_trpc/client';
 import { useRouter, useSearchParams} from 'next/navigation';
 
 const Page = () =>{
-  console.log('here')
+    console.log('here')
     const router = useRouter();
     const searchParams = useSearchParams();
     const origin = searchParams.get('origin');

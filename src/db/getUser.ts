@@ -3,6 +3,7 @@ type dbUserType = {
     plan:string,
     email:string,
     id:string,
+    fullname:string,
 }
 export const getUserFromDatabase = async (kindeId:any)=>{
     const dbUser:dbUserType = await db.users.findFirst({
@@ -10,6 +11,5 @@ export const getUserFromDatabase = async (kindeId:any)=>{
             kindeId: kindeId,
         }
     })
-    // const allUsers = await db.users.findMany()
     return dbUser;
 }
